@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_cost.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sofiab <sofiab@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/09 18:41:01 by sofiab            #+#    #+#             */
+/*   Updated: 2026/01/09 19:32:32 by sofiab           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/push_swap.h"
 
 void	cost_analysis_a(t_stack *a, t_stack *b)
@@ -24,10 +36,18 @@ void	set_cheapest(t_stack *stack)
 {
 	long	cheapest_value;
 	t_stack	*cheapest_node;
+	t_stack	*temp;
 
 	if (!stack)
 		return ;
+	temp = stack;
+	while (temp)
+	{
+		temp->best_match = 0;
+		temp = temp->next;
+	}
 	cheapest_value = LONG_MAX;
+	cheapest_node = stack;
 	while (stack)
 	{
 		if (stack->push_cost < cheapest_value)

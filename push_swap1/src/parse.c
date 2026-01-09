@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sofiab <sofiab@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/09 18:42:18 by sofiab            #+#    #+#             */
+/*   Updated: 2026/01/09 19:04:24 by sofiab           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/push_swap.h"
 
 static int	is_valid_number(char *str)
@@ -73,7 +85,7 @@ void	parse_args(int argc, char **argv, t_stack **a)
 	int	i;
 
 	if (argc < 2)
-		ft_error();
+		exit(0);
 	i = 1;
 	while (i < argc)
 	{
