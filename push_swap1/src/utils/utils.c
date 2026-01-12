@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sofiab <sofiab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svaladar <svaladar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 18:42:12 by sofiab            #+#    #+#             */
-/*   Updated: 2026/01/09 19:12:42 by sofiab           ###   ########.fr       */
+/*   Updated: 2026/01/11 17:38:50 by svaladar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/push_swap.h"
 
-void	ft_error(void)
+void	ft_error(t_stack **a)
 {
+	free_stack(a);
 	ft_putstr_fd("Error\n", 2);
 	exit(1);
 }
@@ -57,7 +58,7 @@ long	ft_atol(const char *str)
 	while (ft_isdigit(str[i]))
 	{
 		result = result * 10 + (str[i] - '0');
-		if (result > -2147483648 && sign == -1)
+		if (result > 2147483648 && sign == -1)
 			return (LONG_MIN);
 		if (result > 2147483647 && sign == 1)
 			return (LONG_MAX);

@@ -1,124 +1,123 @@
 # Push Swap
 
-*Este projeto foi criado como parte do currículo da 42 por Sofia Bastos.*
+*This project was created as part of the 42 curriculum by svaladar.*
 
-## Descrição
+## Description
 
-O **push_swap** é um projeto de algoritmo e manipulação de dados que consiste em ordenar uma pilha de números inteiros utilizando um conjunto limitado de operações e o menor número possível de movimentos.
+**push_swap** is an algorithm and data manipulation project that consists of sorting a stack of integers using a limited set of operations and the smallest possible number of moves.
 
-O projeto utiliza duas pilhas (a e b) e um conjunto restrito de operações:
-- **sa/sb/ss**: troca os dois primeiros elementos da pilha
-- **pa/pb**: move o primeiro elemento de uma pilha para outra
-- **ra/rb/rr**: rotaciona a pilha para cima
-- **rra/rrb/rrr**: rotaciona a pilha para baixo
+The project uses two stacks (a and b) and a restricted set of operations:
+- **sa/sb/ss**: swap the first two elements of the stack
+- **pa/pb**: move the first element from one stack to another
+- **ra/rb/rr**: rotate the stack upward
+- **rra/rrb/rrr**: rotate the stack downward
 
-O objetivo é desenvolver um algoritmo eficiente que minimize o número de operações necessárias para ordenar a pilha a, utilizando a pilha b como auxiliar.
+The goal is to develop an efficient algorithm that minimizes the number of operations needed to sort stack a, using stack b as an auxiliary.
 
-### Estrutura de Dados
+### Data Structure
 
-O projeto utiliza uma **lista duplamente encadeada** para representar cada pilha. Cada nó contém:
-- `value`: o valor inteiro
-- `index`: posição atual na pilha (0 = topo)
-- `push_cost`: custo calculado para mover o elemento
-- `above_median`: flag indicando se está na metade superior da pilha
-- `best_match`: flag indicando se é o elemento mais barato para mover
-- `target`: ponteiro para o nó alvo na outra pilha
-- `next` e `prev`: ponteiros para navegação bidirecional
+The project uses a **doubly linked list** to represent each stack. Each node contains:
+- `value`: the integer value
+- `index`: current position in the stack (0 = top)
+- `push_cost`: calculated cost to move the element
+- `above_median`: flag indicating if it's in the upper half of the stack
+- `best_match`: flag indicating if it's the cheapest element to move
+- `target`: pointer to the target node in the other stack
+- `next` and `prev`: pointers for bidirectional navigation
 
-Esta estrutura permite operações eficientes de inserção, remoção e navegação em ambas as direções.
+This structure allows efficient insertion, removal, and navigation operations in both directions.
 
-### Algoritmo Implementado
+### Implemented Algorithm
 
-Este projeto implementa uma estratégia adaptativa baseada no tamanho da entrada:
+This project implements an adaptive strategy based on input size:
 
-**Para 2 elementos:**
-- Solução direta: uma única operação `sa` se necessário
+**For 2 elements:**
+- Direct solution: a single `sa` operation if needed
 
-**Para 3 elementos:**
-- Algoritmo otimizado em `sort_three()`: máximo 3 operações
+**For 3 elements:**
+- Optimized algorithm in `sort_three()`: maximum 3 operations
 
-**Para 4+ elementos:**
-- Implementa uma variação do **Turk Algorithm**, um algoritmo de ordenação otimizado que:
+**For 4+ elements:**
+- Implements a variation of the **Turk Algorithm**, an optimized sorting algorithm that:
 
-1. Move elementos de `a` para `b` (mantém os 3 últimos em `a`)
-2. Ordena os 3 elementos restantes em `a`
-3. Para cada elemento em `b`:
-   - Calcula o **índice** e identifica se está **acima ou abaixo da mediana**
-   - Define o **target node** (alvo) em `a` - a posição correta onde deve ser inserido
-   - Calcula o **custo** (número de operações) necessário para mover o elemento
-   - Identifica o **best match** (elemento com menor custo)
-4. Move elementos de volta para `a` na posição correta, priorizando movimentos mais baratos
-5. Otimiza usando rotações duplas (`rr` ou `rrr`) quando ambas as pilhas precisam rotacionar na mesma direção
-6. Finaliza rotacionando o menor elemento para o topo
+1. Moves elements from `a` to `b` (keeps the last 3 in `a`)
+2. Sorts the remaining 3 elements in `a`
+3. For each element in `b`:
+   - Calculates the **index** and identifies if it's **above or below the median**
+   - Defines the **target node** in `a` - the correct position where it should be inserted
+   - Calculates the **cost** (number of operations) needed to move the element
+   - Identifies the **best match** (element with lowest cost)
+4. Moves elements back to `a` in the correct position, prioritizing cheaper moves
+5. Optimizes using double rotations (`rr` or `rrr`) when both stacks need to rotate in the same direction
+6. Finalizes by rotating the smallest element to the top
 
-O algoritmo utiliza conceitos de:
-- **Target nodes**: cada nó em uma pilha tem um "alvo" na outra pilha (próximo menor para a→b, próximo maior para b→a)
-- **Cost analysis**: calcula o custo (número de operações) para mover cada elemento considerando sua posição e a posição do alvo
-- **Median tracking**: identifica se um elemento está acima ou abaixo da mediana para escolher entre rotação (`ra`) ou rotação reversa (`rra`), minimizando movimentos
-- **Best match optimization**: sempre escolhe o elemento mais barato para mover, reduzindo o número total de operações
+The algorithm uses concepts of:
+- **Target nodes**: each node in a stack has a "target" in the other stack (next smaller for a→b, next larger for b→a)
+- **Cost analysis**: calculates the cost (number of operations) to move each element considering its position and the target's position
+- **Median tracking**: identifies if an element is above or below the median to choose between rotation (`ra`) or reverse rotation (`rra`), minimizing movements
+- **Best match optimization**: always chooses the cheapest element to move, reducing the total number of operations
 
-## Instruções
+## Instructions
 
-### Compilação
+### Compilation
 
-**Requisitos:**
-- Compilador: `gcc` ou `cc`
+**Requirements:**
+- Compiler: `gcc` or `cc`
 - Flags: `-Wall -Wextra -Werror`
-- Standard: C99 ou superior
-
+- Standard: C99 or higher
 
 ```bash
 make
 ```
 
-Isso gerará o executável `push_swap` compilando o `main.c` junto com todos os módulos em `src/`.
+This will generate the `push_swap` executable by compiling `main.c` along with all modules in `src/`.
 
-### Compilação Adicional
+### Additional Compilation
 
 ```bash
-make clean    # Remove arquivos objeto
-make fclean   # Remove arquivos objeto e executável
-make re       # Recompila tudo do zero
+make clean    # Remove object files
+make fclean   # Remove object files and executable
+make re       # Recompile everything from scratch
 ```
 
-### Uso
+### Usage
 
 ```bash
-./push_swap [números inteiros]
+./push_swap [integers]
 ```
 
-**Exemplos:**
+**Examples:**
 
 ```bash
-# Números como argumentos separados
+# Numbers as separate arguments
 ./push_swap 3 2 5 1 4
 
-# Números em uma string
+# Numbers in a single string
 ./push_swap "3 2 5 1 4"
 
-# Exemplo com números negativos
+# Example with negative numbers
 ./push_swap -5 2 -1 0 10
 ```
 
-### Saída
+### Output
 
-O programa imprime na saída padrão a sequência de operações necessárias para ordenar a pilha:
+The program prints to standard output the sequence of operations needed to sort the stack:
 
 ```bash
-# Exemplo com 3 números
+# Example with 3 numbers
 $ ./push_swap 3 2 1
 sa
 rra
 
-# Exemplo com 2 números
+# Example with 2 numbers
 $ ./push_swap 2 1
 sa
 
-# Exemplo com pilha já ordenada (sem output)
+# Example with already sorted stack (no output)
 $ ./push_swap 1 2 3 4 5
 $
 
-# Exemplo com 5 números
+# Example with 5 numbers
 $ ./push_swap 5 4 3 2 1
 pb
 pb
@@ -129,172 +128,172 @@ ra
 ra
 ```
 
-## Fluxo de Execução
+## Execution Flow
 
-1. **Inicialização** (`main.c`):
-   - Verifica se há argumentos (se argc < 2, retorna sem erro)
-   - Inicializa as pilhas a e b como NULL
+1. **Initialization** (`main.c`):
+   - Checks if there are arguments (if argc < 2, returns without error)
+   - Initializes stacks a and b as NULL
 
 2. **Parsing** (`parse.c`):
-   - Valida argumentos da linha de comando
-   - Converte strings em números inteiros
-   - Verifica duplicatas e limites de INT
-   - Constrói a pilha inicial
+   - Validates command line arguments
+   - Converts strings to integers
+   - Checks for duplicates and INT limits
+   - Builds the initial stack
 
-3. **Verificação de Ordenação** (`stack_utils.c`):
-   - Verifica se a pilha já está ordenada com `is_sorted()`
-   - Se sim, pula para a liberação de memória (sem operações)
+3. **Sort Verification** (`stack_utils.c`):
+   - Checks if the stack is already sorted with `is_sorted()`
+   - If yes, skips to memory deallocation (no operations)
 
-4. **Algoritmo de Ordenação** (seleção baseada no tamanho):
-   - **2 elementos**: executa apenas `sa` se necessário
-   - **3 elementos**: usa `sort_three()` - algoritmo específico e otimizado
-   - **4+ elementos**: implementa o algoritmo Turk completo
-     - Move todos elementos exceto 3 para pilha b (`pb`)
-     - Ordena os 3 elementos restantes em a
-     - Para cada elemento em b:
-       - Calcula índices e mediana
-       - Define alvos (target nodes) em a
-       - Calcula custos de movimentação
-       - Identifica o movimento mais barato
-       - Otimiza rotações duplas quando possível
-       - Move elemento para posição correta em a
-     - Posiciona o menor elemento no topo
+4. **Sorting Algorithm** (selection based on size):
+   - **2 elements**: executes only `sa` if needed
+   - **3 elements**: uses `sort_three()` - specific and optimized algorithm
+   - **4+ elements**: implements the complete Turk algorithm
+     - Moves all elements except 3 to stack b (`pb`)
+     - Sorts the remaining 3 elements in a
+     - For each element in b:
+       - Calculates indices and median
+       - Defines targets (target nodes) in a
+       - Calculates movement costs
+       - Identifies the cheapest move
+       - Optimizes double rotations when possible
+       - Moves element to correct position in a
+     - Positions the smallest element on top
 
-5. **Finalização**:
-   - Libera toda memória alocada (`free_stack()`)
-   - Retorna 0 (sucesso)
+5. **Finalization**:
+   - Frees all allocated memory (`free_stack()`)
+   - Returns 0 (success)
 
-## Casos Especiais
+## Special Cases
 
-### 2 Elementos
+### 2 Elements
 ```c
-// Se desordenado, apenas troca
+// If unsorted, just swap
 sa(&a, 1);
 ```
 
-### 3 Elementos
-Implementa lógica otimizada em `sort_three()`:
-- Identifica o maior elemento
-- Posiciona-o no final
-- Troca os dois primeiros se necessário
-- Máximo de 3 operações
+### 3 Elements
+Implements optimized logic in `sort_three()`:
+- Identifies the largest element
+- Positions it at the end
+- Swaps the first two if needed
+- Maximum of 3 operations
 
-## Gerenciamento de Memória
+## Memory Management
 
-O projeto implementa gerenciamento cuidadoso de memória:
+The project implements careful memory management:
 
-- **Alocação**: todos os nós da pilha são alocados dinamicamente
-- **Liberação**: `free_stack()` e `free_split()` garantem que não há vazamentos
-- **Error handling**: em caso de erro durante parsing ou alocação, toda memória já alocada é liberada antes de encerrar
-- **Valgrind**: o programa deve executar sem memory leaks quando testado com valgrind
+- **Allocation**: all stack nodes are dynamically allocated
+- **Deallocation**: `free_stack()` and `free_split()` ensure no leaks
+- **Error handling**: in case of error during parsing or allocation, all already allocated memory is freed before terminating
+- **Valgrind**: the program should run without memory leaks when tested with valgrind
 
-Exemplo de teste com valgrind:
+Example test with valgrind:
 ```bash
 valgrind --leak-check=full ./push_swap 3 2 1 5 4
 ```
 
-## Testes Recomendados
+## Recommended Tests
 
-### Testes Básicos
+### Basic Tests
 ```bash
-# Sem argumentos (deve retornar sem erro)
+# No arguments (should return without error)
 ./push_swap
 
-# Um número (nenhuma operação)
+# One number (no operations)
 ./push_swap 42
 
-# Pilha já ordenada (nenhuma operação)
+# Already sorted stack (no operations)
 ./push_swap 1 2 3 4 5
 
-# 2 elementos
+# 2 elements
 ./push_swap 2 1
 
-# 3 elementos (todas as permutações)
+# 3 elements (all permutations)
 ./push_swap 2 1 3
 ./push_swap 3 2 1
 ./push_swap 1 3 2
 ```
 
-### Testes de Erro
+### Error Tests
 ```bash
-# Duplicatas
+# Duplicates
 ./push_swap 1 2 3 2    # Error
 
-# Não numérico
+# Non-numeric
 ./push_swap 1 2 abc    # Error
 
 # Overflow
 ./push_swap 2147483648 # Error
 
-# Argumento vazio
+# Empty argument
 ./push_swap ""         # Error
 ```
 
-### Testes de Performance
+### Performance Tests
 ```bash
-# Gerar números aleatórios e contar operações
+# Generate random numbers and count operations
 ARG=$(shuf -i 0-100 -n 100 | tr '\n' ' '); ./push_swap $ARG | wc -l
 
-# Teste com caso pior (ordem reversa)
+# Test with worst case (reverse order)
 ./push_swap $(seq 100 -1 1) | wc -l
 ```
-## Tratamento de Erros
 
-O programa verifica e trata os seguintes casos através do módulo `parse.c`:
+## Error Handling
 
-- ✓ **Números duplicados**: verifica se há valores repetidos antes de adicionar à pilha
-- ✓ **Argumentos não numéricos**: valida caracteres (aceita apenas dígitos, '+' e '-')
-- ✓ **Números fora do intervalo de INT**: verifica se os valores estão entre INT_MIN e INT_MAX
-- ✓ **Argumentos vazios**: detecta strings vazias ou inválidas
-- ✓ **Formato inválido**: valida sinais '+' e '-' seguidos de dígitos
-- ✓ **Pilha já ordenada**: não executa operações se já estiver ordenada (retorna sem output)
+The program checks and handles the following cases through the `parse.c` module:
 
-**Comportamento especial:**
-- Se o programa for executado sem argumentos (`argc < 2`), retorna 0 sem imprimir erro (comportamento esperado pela 42)
+- ✓ **Duplicate numbers**: checks for repeated values before adding to the stack
+- ✓ **Non-numeric arguments**: validates characters (accepts only digits, '+' and '-')
+- ✓ **Numbers outside INT range**: checks if values are between INT_MIN and INT_MAX
+- ✓ **Empty arguments**: detects empty or invalid strings
+- ✓ **Invalid format**: validates '+' and '-' signs followed by digits
+- ✓ **Already sorted stack**: doesn't execute operations if already sorted (returns without output)
 
-### Validação de Entrada
+**Special behavior:**
+- If the program is executed without arguments (`argc < 2`), returns 0 without printing error (expected behavior by 42)
 
-O parsing suporta duas formas de entrada:
+### Input Validation
+
+Parsing supports two forms of input:
 
 ```bash
-# Múltiplos argumentos
+# Multiple arguments
 ./push_swap 3 2 1 5 4
 
-# String única com espaços
+# Single string with spaces
 ./push_swap "3 2 1 5 4"
 
-# Combinação de ambos
+# Combination of both
 ./push_swap 3 2 "1 5 4"
 ```
 
-Em caso de erro durante validação, o programa imprime `Error\n` na saída de erro padrão (stderr) e encerra com código de erro.
+In case of error during validation, the program prints `Error\n` to standard error output (stderr) and exits with error code.
 
-### Ferramentas de Teste
-- **push_swap_visualizer**: visualiza as operações graficamente
-- **push_swap_tester**: testa múltiplos casos e verifica número de operações
-- **checker**: verifica se a sequência de operações ordena corretamente (se implementado)
+### Testing Tools
+- **push_swap_visualizer**: visualizes operations graphically
+- **push_swap_tester**: tests multiple cases and checks number of operations
+- **checker**: verifies if the operation sequence sorts correctly (if implemented)
 
-## Recursos
+## Resources
 
-### Documentação e Referências
+### Documentation and References
 
-- **Subject da 42**: Documento oficial do projeto push_swap
-- **Visualizador de push_swap**: [push-swap-visualizer](https://github.com/o-reo/push_swap_visualizer) - ferramenta para visualizar as operações
-- **Algoritmos de ordenação**: estudo sobre complexidade algorítmica e otimização
-- **Estruturas de dados**: listas duplamente encadeadas em C
+- **42 Subject**: Official push_swap project document
+- **Push_swap visualizer**: [push-swap-visualizer](https://github.com/o-reo/push_swap_visualizer) - tool to visualize operations
+- **Sorting algorithms**: study on algorithmic complexity and optimization
+- **Data structures**: doubly linked lists in C
 
-### Artigos e Tutoriais
+### Articles and Tutorials
 
-- [Push Swap — A journey to find most efficient sorting algorithm](https://medium.com/@jamierobertdawson/push-swap-the-least-amount-of-moves-with-two-stacks-d1e76a71789a) - explicação do algoritmo Turk
-- [Sorting algorithms comparison](https://www.bigocheatsheet.com/) - complexidade de algoritmos
-- Conceitos de pilhas (stacks) e operações fundamentais
+- [Push Swap — A journey to find most efficient sorting algorithm](https://medium.com/@jamierobertdawson/push-swap-the-least-amount-of-moves-with-two-stacks-d1e76a71789a) - explanation of the Turk algorithm
+- [Sorting algorithms comparison](https://www.bigocheatsheet.com/) - algorithm complexity
+- Concepts of stacks and fundamental operations
 
-### Uso de IA
+### AI Usage
 
-A Inteligência Artificial foi utilizada neste projeto para:
+Artificial Intelligence was used in this project for:
 
-- **Geração deste README.md**: estruturação da documentação.
-- **Explicação de conceitos**: esclarecimento sobre o funcionamento do algoritmo e suas otimizações.
+- **Generation of this README.md**: documentation structuring.
+- **Concept explanation**: clarification about the algorithm's functioning and its optimizations.
 
-
-**Importante**: Todo o código de implementação foi desenvolvido manualmente. A IA foi utilizada apenas como ferramenta de apoio para documentação e compreensão teórica do algoritmo.
+**Important**: All implementation code was developed manually. AI was used only as a support tool for documentation and theoretical understanding of the algorithm.

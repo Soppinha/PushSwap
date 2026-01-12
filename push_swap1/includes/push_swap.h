@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sofiab <sofiab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svaladar <svaladar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 20:05:33 by sofiab            #+#    #+#             */
-/*   Updated: 2026/01/09 20:05:34 by sofiab           ###   ########.fr       */
+/*   Updated: 2026/01/11 17:34:48 by svaladar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	free_stack(t_stack **stack);
 t_stack	*find_min(t_stack *stack);
 t_stack	*find_max(t_stack *stack);
 
-void	ft_error(void);
+void	ft_error(t_stack **a);
 void	ft_putstr_fd(char *s, int fd);
 int		ft_isdigit(int c);
 long	ft_atol(const char *str);

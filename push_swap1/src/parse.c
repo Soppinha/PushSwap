@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sofiab <sofiab@student.42.fr>              +#+  +:+       +#+        */
+/*   By: svaladar <svaladar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 18:42:18 by sofiab            #+#    #+#             */
-/*   Updated: 2026/01/09 19:04:24 by sofiab           ###   ########.fr       */
+/*   Updated: 2026/01/11 18:02:31 by svaladar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ static int	is_valid_number(char *str)
 
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
+	{
 		i++;
+		if (str[i] == '-' || str[i] == '+')
+			return (0);
+	}
 	if (!str[i])
 		return (0);
 	while (str[i])
@@ -30,43 +34,52 @@ static int	is_valid_number(char *str)
 	return (1);
 }
 
-static void	process_number(char *str, t_stack **a)
+static int	process_number(char *str, t_stack **a)
 {
 	long	num;
 	t_stack	*new;
 
 	if (!is_valid_number(str))
-		ft_error();
+		return (0);
 	num = ft_atol(str);
 	if (num > INT_MAX || num < INT_MIN)
-		ft_error();
+		return (0);
 	if (has_duplicate(*a, (int)num))
-		ft_error();
+		return (0);
 	new = create_node((int)num);
 	if (!new)
-	{
-		free_stack(a);
-		ft_error();
-	}
+		return (0);
 	add_node_back(a, new);
+	return (1);
 }
 
 static void	parse_single_arg(char *arg, t_stack **a)
 {
 	char	**split;
 	int		i;
+	int		count;
 
 	split = ft_split(arg, ' ');
 	if (!split)
-		ft_error();
+		ft_error(a);
 	i = 0;
+	count = 0;
 	while (split[i])
 	{
 		if (split[i][0] != '\0')
-			process_number(split[i], a);
+		{
+			if (!process_number(split[i], a))
+			{
+				free_split(split);
+				ft_error(a);
+			}
+			count++;
+		}
 		i++;
 	}
 	free_split(split);
+	if (count == 0)
+		ft_error(a);
 }
 
 static int	has_space(char *s)
@@ -90,13 +103,14 @@ void	parse_args(int argc, char **argv, t_stack **a)
 	while (i < argc)
 	{
 		if (argv[i][0] == '\0')
-			ft_error();
+			ft_error(a);
 		if (has_space(argv[i]))
 			parse_single_arg(argv[i], a);
 		else
-			process_number(argv[i], a);
+			if (!process_number(argv[i], a))
+				ft_error(a);
 		i++;
 	}
 	if (!*a)
-		ft_error();
+		ft_error(a);
 }
