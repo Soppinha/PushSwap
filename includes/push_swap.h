@@ -13,9 +13,7 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
+# include "libft.h"
 
 typedef struct s_stack
 {
@@ -75,11 +73,5 @@ t_stack	*find_min(t_stack *stack);
 t_stack	*find_max(t_stack *stack);
 
 void	ft_error(t_stack **a);
-void	ft_putstr_fd(char *s, int fd);
-int		ft_isdigit(int c);
-long	ft_atol(const char *str);
-
-char	**ft_split(char const *s, char c);
-void	free_split(char **split);
 
 #endif

@@ -12,6 +12,24 @@
 
 #include "../../includes/push_swap.h"
 
+static int	combined_cost(t_stack *node, int len_a, int len_b)
+{
+	int	cost_a;
+	int	cost_b;
+
+	cost_a = len_a - node->index;
+	if (node->above_median)
+		cost_a = node->index;
+	cost_b = len_b - node->target->index;
+	if (node->target->above_median)
+		cost_b = node->target->index;
+	if (node->above_median != node->target->above_median)
+		return (cost_a + cost_b);
+	if (cost_a > cost_b)
+		return (cost_a);
+	return (cost_b);
+}
+
 void	cost_analysis_a(t_stack *a, t_stack *b)
 {
 	int	len_a;
@@ -21,13 +39,7 @@ void	cost_analysis_a(t_stack *a, t_stack *b)
 	len_b = get_stack_size(b);
 	while (a)
 	{
-		a->push_cost = a->index;
-		if (!(a->above_median))
-			a->push_cost = len_a - (a->index);
-		if (a->target->above_median)
-			a->push_cost += a->target->index;
-		else
-			a->push_cost += len_b - (a->target->index);
+		a->push_cost = combined_cost(a, len_a, len_b);
 		a = a->next;
 	}
 }

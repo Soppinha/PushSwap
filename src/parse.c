@@ -70,27 +70,33 @@ static void	parse_single_arg(char *arg, t_stack **a)
 		{
 			if (!process_number(split[i], a))
 			{
-				free_split(split);
+				ft_free_array(split);
 				ft_error(a);
 			}
 			count++;
 		}
 		i++;
 	}
-	free_split(split);
+	ft_free_array(split);
 	if (count == 0)
 		ft_error(a);
 }
 
-static int	has_space(char *s)
+static int	normalize_spaces(char *s)
 {
+	int	found;
+
+	found = 0;
 	while (*s)
 	{
 		if (*s == ' ' || (*s >= 9 && *s <= 13))
-			return (1);
+		{
+			*s = ' ';
+			found = 1;
+		}
 		s++;
 	}
-	return (0);
+	return (found);
 }
 
 void	parse_args(int argc, char **argv, t_stack **a)
@@ -104,7 +110,7 @@ void	parse_args(int argc, char **argv, t_stack **a)
 	{
 		if (argv[i][0] == '\0')
 			ft_error(a);
-		if (has_space(argv[i]))
+		if (normalize_spaces(argv[i]))
 			parse_single_arg(argv[i], a);
 		else
 			if (!process_number(argv[i], a))

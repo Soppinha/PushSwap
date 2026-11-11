@@ -17,8 +17,6 @@ void	sort_stack(t_stack **a, t_stack **b)
 	int	len_a;
 
 	len_a = get_stack_size(*a);
-	if (is_sorted(*a))
-		return ;
 	if (len_a-- > 3 && !is_sorted(*a))
 		pb(a, b, 1);
 	if (len_a-- > 3 && !is_sorted(*a))
